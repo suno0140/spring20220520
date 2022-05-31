@@ -27,4 +27,6 @@ public interface MemberMapper {
 	int insertAuth(@Param("id") String id, @Param("auth") String auth);
 
 	int deleteAuthById(String id);
+	
+	void updatePasswordById(@Param("id") String id, @Param("pw") String pw);
 }

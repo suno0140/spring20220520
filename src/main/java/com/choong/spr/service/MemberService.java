@@ -78,12 +78,15 @@ public class MemberService {
 			// 댓글 삭제
 			replyMapper.deleteByMemberId(dto.getId());
 			
-			// 이멤버가 쓴 게시글 삭제
+			// 이멤버가 쓴 게시글에 달린 다른사람 댓글 삭제
 			List<BoardDto> boardList = boardMapper.listByMemberId(dto.getId());
 			for (BoardDto board : boardList) {
-				boardService.deleteBoard(board.getId());
+				replyMapper.deleteByBoardId(board.getId());
 			}
 					
+			// 이멤버가 쓴 게시글 삭제
+			boardMapper.deleteByMemberId(dto.getId());
+			
 			// 권한테이블 삭제
 			mapper.deleteAuthById(dto.getId());
 			
@@ -112,6 +115,13 @@ public class MemberService {
 		}
 		
 		return false;
+	}
+	
+	public void initPassword(String id) {
+
+		String pw = passwordEncoder.encode(id);
+		
+		mapper.updatePasswordById(id, pw);
 	}
 
 	
