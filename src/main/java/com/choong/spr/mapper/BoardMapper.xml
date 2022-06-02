@@ -6,12 +6,12 @@
 
 	<select id="selectBoardAll" resultType="com.choong.spr.domain.BoardDto">
 		SELECT b.id, 
-				b.title, 
-				b.inserted, 
-				COUNT(r.id) numOfReply, 
-				m.nickName writerNickName
+		       b.title, 
+		       b.inserted, 
+		       COUNT(r.id) numOfReply,
+		       m.nickName writerNickName
 		FROM Board b LEFT JOIN Reply r ON b.id = r.board_id
-						  JOIN Member m ON b.memberId = m.id	
+		                  JOIN Member m ON b.memberId = m.id
 		
 		<if test="keyword != '%%'">
 			<choose>
@@ -44,11 +44,9 @@
 		       b.inserted, 
 		       COUNT(r.id) numOfReply, 
 		       m.id memberId,
-		       m.nickName writerNickName,
-		       f.fileName
+		       m.nickName writerNickName
 		FROM Board b LEFT JOIN Reply r ON b.id = r.board_id
 		                  JOIN Member m ON b.memberId = m.id
-		             LEFT JOIN File f ON b.id = f.boardId     
 		WHERE b.id = #{id}
 	</select>
 	
@@ -83,7 +81,7 @@
 	</insert>
 	
 	<select id="selectFileByBoardId" resultType="string">
-	SELECT fileName
+	SELECT fileName 
 	FROM File
 	WHERE boardId = #{boardId}
 	</select>
@@ -92,5 +90,11 @@
 	DELETE FROM File
 	WHERE boardId = #{boardId}
 	</delete>
+	
+	<select id="selectFileNameByBoard" resultType="string">
+	SELECT fileName
+	FROM File
+	WHERE boardId = #{boardId}
+	</select>
 </mapper>
 
